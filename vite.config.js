@@ -9,10 +9,11 @@ if (!global.crypto) {
 
 export default defineConfig({
   build: {
+    outDir: 'dist',
     lib: {
       entry: resolve(__dirname, 'src/face-detector.js'),
       name: 'FaceDetector',
-      fileName: 'face-detector',
+      fileName: (format) => `face-detector.${format}.js`,
       formats: ['umd', 'es']
     },
     rollupOptions: {
