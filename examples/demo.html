@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Face Detector Demo</title>
+    <style>
+        .config-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="config-form">
+        <h3>Detector Configuration</h3>
+        <div>
+            <label>Timeout Duration (ms):</label>
+            <input type="number" id="timeoutDuration" class="detector-config" value="3000">
+        </div>
+        <div>
+            <label>Facefinder Path:</label>
+            <input type="text" id="facefinderPath" class="detector-config" value="../src/resources/facefinder">
+        </div>
+        <div>
+            <label>Puploc Path:</label>
+            <input type="text" id="puplocPath" class="detector-config" value="../src/resources/puploc.bin">
+        </div>
+        <div>
+            <label>Show Face Circle:</label>
+            <input type="checkbox" id="showFaceCircle" class="detector-config" checked>
+        </div>
+        <div>
+            <label>Show Pupil Points:</label>
+            <input type="checkbox" id="showPupilPoints" class="detector-config" checked>
+        </div>
+        <div>
+            <label>Face Circle Color:</label>
+            <input type="color" id="faceCircleColor" class="detector-config" value="#00ff00">
+        </div>
+        <div>
+            <label>Pupil Points Color:</label>
+            <input type="color" id="pupilPointsColor" class="detector-config" value="#ff0000">
+        </div>
+        <div>
+            <label>Face Circle Line Width:</label>
+            <input type="number" id="faceCircleLineWidth" class="detector-config" value="2" min="1" max="10">
+        </div>
+        <div>
+            <label>Pupil Points Line Width:</label>
+            <input type="number" id="pupilPointsLineWidth" class="detector-config" value="7" min="1" max="10">
+        </div>
+    </div>
+
+    <button id="startButton">Start Detection</button>
+    <div>
+        <label>
+            <input type="checkbox" id="hideCamera"> Hide Camera
+        </label>
+    </div>
+    <canvas id="cameraView"></canvas>
+
+    <script src="../src/pico.js"></script>
+    <script src="../src/lploc.js"></script>
+    <script src="../src/face-detector.js"></script>
+    <script src="demo.js"></script>
+</body>
+</html>

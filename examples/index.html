@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Face Detection Demo - Eye Pupil Localization</title>
+        <script src="../src/pico.js"></script>
+        <script src="../src/lploc.js"></script>
+        <script src="../src/face-detector.js"></script>
+        <script src="./demo.js" defer></script>
+        <link rel="stylesheet" href="./styles.css">
+    </head>
+    <body>
+        <section>
+            <h3>Real-time Eye Pupil Detection</h3>
+            <p>Click the button below and allow the page to access your webcam.</p>
+            <p><strong>All processing is done locally on your device - no images are sent to any server.</strong></p>
+            <p>Learn more about config/options <a href="./demo.html">here</a>.</p>
+        </section>
+
+        <div class="controls">
+            <button id="startButton">Start webcam feed</button>
+            <label>
+                <input type="checkbox" id="hideCamera">
+                Hide camera view
+            </label>
+        </div>
+
+        <div class="camera-container">
+            <canvas id="cameraView" width="640" height="480"></canvas>
+        </div>
+    </body>
+</html>
