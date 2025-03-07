@@ -1,5 +1,15 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
+import crypto from 'crypto';
+
+// Polyfill crypto for Node.js environment
+if (!global.crypto) {
+  global.crypto = {
+    getRandomValues: (buffer) => {
+      return crypto.randomFillSync(buffer);
+    }
+  };
+}
 
 export default defineConfig({
   build: {
