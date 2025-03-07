@@ -1,19 +1,10 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
-import crypto from 'crypto';
+import { webcrypto } from 'node:crypto';
 
-// Proper crypto polyfill for Node.js environment
-const cryptoPolyfill = {
-  randomBytes: (size) => crypto.randomBytes(size),
-  getRandomValues: function(arr) {
-    const bytes = crypto.randomBytes(arr.length);
-    arr.set(bytes);
-    return arr;
-  }
-};
-
-if (!global.crypto || !global.crypto.getRandomValues) {
-  global.crypto = cryptoPolyfill;
+// Use Node.js 22's native webcrypto API
+if (!global.crypto) {
+  global.crypto = webcrypto;
 }
 
 export default defineConfig({

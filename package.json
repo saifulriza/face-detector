@@ -4,6 +4,9 @@
   "description": "Face and pupil detection library",
   "type": "module",
   "main": "dist/face-detector.js",
+  "engines": {
+    "node": ">=22.14.0"
+  },
   "scripts": {
     "build": "vite build"
   },
