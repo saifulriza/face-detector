@@ -25,7 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
         faceCircleColor: '#00ff00',
         pupilPointsColor: '#ff0000',
         faceCircleLineWidth: 2,
-        pupilPointsLineWidth: 7
+        pupilPointsLineWidth: 7,
+        detectionMode: 'both'
     };
 
     function getConfigFromForm() {

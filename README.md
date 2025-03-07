@@ -18,6 +18,7 @@ A framework-agnostic face detection library.
 | pupilPointsColor | string | '#ff0000' | Color of pupil detection points |
 | faceCircleLineWidth | number | 3 | Line width of face detection circle |
 | pupilPointsLineWidth | number | 3 | Line width of pupil detection points |
+| detectionMode | string | 'both' | Detection mode: 'face', 'pupil', or 'both' |
 | resources | object | { facefinder: './resources/facefinder.bin', puploc: './resources/puploc.bin' } | Paths to required detection model files |
 
 ## Usage
@@ -122,4 +123,3 @@ onBeforeUnmount(() => {
     }
 });
 </script>
-```
