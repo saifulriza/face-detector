@@ -2,13 +2,18 @@ import { defineConfig } from 'vite';
 import { resolve } from 'path';
 import crypto from 'crypto';
 
-// Polyfill crypto for Node.js environment
-if (!global.crypto) {
-  global.crypto = {
-    getRandomValues: (buffer) => {
-      return crypto.randomFillSync(buffer);
-    }
-  };
+// Proper crypto polyfill for Node.js environment
+const cryptoPolyfill = {
+  randomBytes: (size) => crypto.randomBytes(size),
+  getRandomValues: function(arr) {
+    const bytes = crypto.randomBytes(arr.length);
+    arr.set(bytes);
+    return arr;
+  }
+};
+
+if (!global.crypto || !global.crypto.getRandomValues) {
+  global.crypto = cryptoPolyfill;
 }
 
 export default defineConfig({
