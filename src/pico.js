@@ -1,5 +1,5 @@
 /* This library is released under the MIT license, see https://github.com/nenadmarkus/picojs */
-pico = {}
+const pico = {}
 
 pico.unpack_cascade = function(bytes)
 {
@@ -188,7 +188,7 @@ pico.instantiate_detection_memory = function(size)
 		memory[n] = dets;
 		n = (n+1)%memory.length;
 		dets = [];
-		for(i=0; i<memory.length; ++i)
+		for(let i=0; i<memory.length; ++i)
 			dets = dets.concat(memory[i]);
 		//
 		return dets;
@@ -198,3 +198,9 @@ pico.instantiate_detection_memory = function(size)
 	*/
 	return update_memory;
 }
+
+if (typeof window !== 'undefined') {
+    window.pico = pico;
+}
+
+export default pico;

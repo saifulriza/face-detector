@@ -1,3 +1,6 @@
+import pico from './pico.js';
+import lploc from './lploc.js';
+
 class FaceDetector {
   constructor(options = {}) {
     this.initialized = false;
@@ -278,6 +281,9 @@ class FaceDetector {
 // Support both ES modules and CommonJS
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = FaceDetector;
-} else {
+} else if (typeof window !== 'undefined') {
+  // Ensure pico and lploc are available globally
+  if (!window.pico) window.pico = pico;
+  if (!window.lploc) window.lploc = lploc;
   window.FaceDetector = FaceDetector;
 }

@@ -1,5 +1,5 @@
 /* This library is released under the MIT license, see https://github.com/nenadmarkus/picojs */
-lploc = {}
+const lploc = {};
 
 lploc.unpack_localizer = function(bytes)
 {
@@ -117,3 +117,9 @@ lploc.unpack_localizer = function(bytes)
 	*/
 	return loc_fun_with_perturbs;
 }
+
+if (typeof window !== 'undefined') {
+    window.lploc = lploc;
+}
+
+export default lploc;

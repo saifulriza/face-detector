@@ -19,8 +19,11 @@ export default defineConfig({
     rollupOptions: {
       output: {
         globals: {
-          FaceDetector: 'FaceDetector'
-        }
+          FaceDetector: 'FaceDetector',
+          pico: 'pico',
+          lploc: 'lploc'
+        },
+        inlineDynamicImports: true
       }
     }
   }
