@@ -15,7 +15,7 @@ class FaceDetector {
       faceCircleLineWidth: options.faceCircleLineWidth || 3, // Default line width for face circle
       pupilPointsLineWidth: options.pupilPointsLineWidth || 3, // Default line width for pupil points
       resources: options.resources || {
-        facefinder: './resources/facefinder',
+        facefinder: './resources/facefinder.bin',
         puploc: './resources/puploc.bin'
       }
     };

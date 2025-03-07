@@ -6,8 +6,19 @@ A framework-agnostic face detection library.
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
+| timeoutDuration | number | 3000 | Duration in milliseconds before triggering timeout callbacks |
+| onFaceDetected | function | () => {} | Callback when face is detected, receives detection data |
+| onFaceTimeout | function | () => {} | Callback when face is not detected for timeoutDuration |
+| onPupilDetected | function | () => {} | Callback when pupil is detected, receives coordinates and eye type |
+| onPupilTimeout | function | () => {} | Callback when pupils are not detected for timeoutDuration |
+| onInit | function | () => {} | Callback when detector is initialized |
 | showFaceCircle | boolean | true | Show/hide face detection circle |
 | showPupilPoints | boolean | true | Show/hide pupil detection points |
+| faceCircleColor | string | '#ff0000' | Color of face detection circle |
+| pupilPointsColor | string | '#ff0000' | Color of pupil detection points |
+| faceCircleLineWidth | number | 3 | Line width of face detection circle |
+| pupilPointsLineWidth | number | 3 | Line width of pupil detection points |
+| resources | object | { facefinder: './resources/facefinder.bin', puploc: './resources/puploc.bin' } | Paths to required detection model files |
 
 ## Usage
 
@@ -79,33 +90,36 @@ function FaceDetectorComponent() {
     </div>
 </template>
 
-<script>
-export default {
-    mounted() {
-        const detector = new FaceDetector({
-            onFaceDetected: (detection) => console.log(detection),
-            showFaceCircle: true,    // optional: show/hide face circle
-            showPupilPoints: false   // optional: show/hide pupil points
-        });
+<script setup>
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 
-        async function initDetector() {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-                this.$refs.video.srcObject = stream;
-                await this.$refs.video.play();
-                
-                await detector.init(this.$refs.canvas);
-                detector.start(this.$refs.video);
-            } catch (err) {
-                console.error('Error:', err);
-            }
-        }
+const video = ref(null);
+const canvas = ref(null);
+let detector;
 
-        initDetector();
+onMounted(async () => {
+    detector = new FaceDetector({
+        onFaceDetected: (detection) => console.log(detection),
+        showFaceCircle: true,    // optional: show/hide face circle
+        showPupilPoints: false   // optional: show/hide pupil points
+    });
 
-        this.$once('hook:beforeDestroy', () => {
-            detector.stop();
-        });
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        video.value.srcObject = stream;
+        await video.value.play();
+        
+        await detector.init(canvas.value);
+        detector.start(video.value);
+    } catch (err) {
+        console.error('Error:', err);
     }
-}
+});
+
+onBeforeUnmount(() => {
+    if (detector) {
+        detector.stop();
+    }
+});
 </script>
+```

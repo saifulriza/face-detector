@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('Face detector initialized');
         },
         resources: {
-            facefinder: '../src/resources/facefinder',
+            facefinder: '../src/resources/facefinder.bin',
             puploc: '../src/resources/puploc.bin'
         },
         showFaceCircle: true,
