@@ -40,20 +40,67 @@ import { FaceDetector } from 'webcam-face-detector';
 ## Usage
 
 ### Vanilla JS
-```javascript
-const detector = new FaceDetector({
-    onFaceDetected: (detection) => console.log(detection),
-    showFaceCircle: true,    // optional: show/hide face circle
-    showPupilPoints: false   // optional: show/hide pupil points
-});
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Face Detector Demo</title>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        video {
+            display: none;
+        }
+        canvas {
+            border: 2px solid #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Face Detector Demo</h1>
+        <video id="video"></video>
+        <canvas id="canvas" width="640" height="480"></canvas>
+    </div>
+    
+    <script src="https://unpkg.com/webcam-face-detector/dist/webcam-face-detector.umd.js"></script>
+    <script>
+        async function initFaceDetector() {
+            const detector = new FaceDetector({
+                onFaceDetected: (detection) => console.log(detection),
+                showFaceCircle: true,    // optional: show/hide face circle
+                showPupilPoints: true,   // optional: show/hide pupil points
+                detectionMode: 'both',
+                resources: {
+                    facefinder : 'https://cdn.jsdelivr.net/gh/saifulriza/face-detector@main/src/resources/facefinder.bin',
+                    puploc :'https://cdn.jsdelivr.net/gh/saifulriza/face-detector@main/src/resources/puploc.bin'
+                }
+            });
 
-// Initialize with canvas
-const canvas = document.querySelector('canvas');
-await detector.init(canvas);
+            const video = document.getElementById('video');
+            const canvas = document.getElementById('canvas');
 
-// Start detection with video
-const video = document.querySelector('video');
-detector.start(video);
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                video.srcObject = stream;
+                await video.play();
+                
+                await detector.init(canvas);
+                detector.start(video);
+            } catch (err) {
+                console.error('Error:', err);
+            }
+        }
+
+        // Start the face detector when page loads
+        window.addEventListener('load', initFaceDetector);
+    </script>
+</body>
+</html>
 ```
 
 ### React Example
