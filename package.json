@@ -1,6 +1,6 @@
 {
   "name": "webcam-face-detector",
-  "version": "0.0.4-alpha",
+  "version": "0.0.5-alpha",
   "description": "Face and pupil detection library",
   "type": "module",
   "main": "dist/webcam-face-detector.umd.js",
