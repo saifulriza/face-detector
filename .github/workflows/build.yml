@@ -34,7 +34,7 @@ jobs:
       if: github.event_name == 'push'
       uses: actions/upload-artifact@v4
       with:
-        name: face-detector-bundle
+        name: webcam-face-detector-bundle
         path: dist/
         if-no-files-found: error
 
@@ -43,7 +43,7 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: |
-          dist/face-detector.umd.js
+          dist/webcam-face-detector.umd.js
 
   publish:
     needs: build

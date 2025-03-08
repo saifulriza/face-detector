@@ -6,16 +6,16 @@ A framework-agnostic face detection library.
 
 ### Via NPM
 ```bash
-npm install face-detector
+npm install webcam-face-detector
 ```
 
 ```javascript
-import { FaceDetector } from 'face-detector';
+import { FaceDetector } from 'webcam-face-detector';
 ```
 
 ### Via CDN
 ```html
-<script src="https://unpkg.com/face-detector/dist/face-detector.umd.js"></script>
+<script src="https://unpkg.com/webcam-face-detector/dist/webcam-face-detector.umd.js"></script>
 ```
 
 ## Configuration Options

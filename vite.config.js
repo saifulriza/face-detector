@@ -13,7 +13,7 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, 'src/face-detector.js'),
       name: 'FaceDetector',
-      fileName: (format) => `face-detector.${format}.js`,
+      fileName: (format) => `webcam-face-detector.${format}.js`,
       formats: ['umd', 'es']
     },
     rollupOptions: {

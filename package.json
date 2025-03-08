@@ -1,10 +1,10 @@
 {
-  "name": "face-detector",
+  "name": "webcam-face-detector",
   "version": "0.0.1-alpha",
   "description": "Face and pupil detection library",
   "type": "module",
-  "main": "dist/face-detector.umd.js",
-  "module": "dist/face-detector.es.js",
+  "main": "dist/webcam-face-detector.umd.js",
+  "module": "dist/webcam-face-detector.es.js",
   "engines": {
     "node": ">=22.14.0"
   },
@@ -19,7 +19,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/saifulriza/face-detector.git"
+    "url": "git+https://github.com/saifulriza/webcam-face-detector.git"
   },
   "author": "Saiful Riza",
   "license": "MIT",
