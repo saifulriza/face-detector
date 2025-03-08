@@ -2,6 +2,22 @@
 
 A framework-agnostic face detection library.
 
+## Installation
+
+### Via NPM
+```bash
+npm install face-detector
+```
+
+```javascript
+import { FaceDetector } from 'face-detector';
+```
+
+### Via CDN
+```html
+<script src="https://unpkg.com/face-detector/dist/face-detector.umd.js"></script>
+```
+
 ## Configuration Options
 
 | Option | Type | Default | Description |

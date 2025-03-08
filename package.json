@@ -1,6 +1,6 @@
 {
   "name": "face-detector",
-  "version": "1.0.0",
+  "version": "0.0.1-alpha",
   "description": "Face and pupil detection library",
   "type": "module",
   "main": "dist/face-detector.umd.js",
@@ -11,6 +11,22 @@
   "scripts": {
     "build": "vite build"
   },
+  "keywords": [
+    "face-detection",
+    "pupil-detection",
+    "computer-vision",
+    "machine-learning"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/saifulriza/face-detector.git"
+  },
+  "author": "Saiful Riza",
+  "license": "MIT",
+  "files": [
+    "dist",
+    "src"
+  ],
   "devDependencies": {
     "vite": "^6.2.0"
   }
