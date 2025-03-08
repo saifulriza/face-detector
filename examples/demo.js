@@ -19,13 +19,13 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         onImageCaptured: (imageData) => {
           // Callback saat gambar diambil
-          console.log('Gambar diambil:', imageData.dataUrl);
+          console.log('Gambar diambil:', imageData);
           // imageData memiliki: dataUrl, timestamp, format, width, height
           
         },
         resources: {
-            facefinder: '../src/resources/facefinder.bin',
-            puploc: '../src/resources/puploc.bin'
+            facefinder : 'https://cdn.jsdelivr.net/gh/saifulriza/face-detector@main/src/resources/facefinder.bin',
+            puploc :'https://cdn.jsdelivr.net/gh/saifulriza/face-detector@main/src/resources/puploc.bin'
         },
         showFaceCircle: true,
         showPupilPoints: true,

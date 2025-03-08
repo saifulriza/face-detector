@@ -1,0 +1,32 @@
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # Jalankan saat ada push ke branch `main`
+
+  workflow_dispatch:  # Bisa dijalankan secara manual dari tab Actions
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4  # Pastikan menggunakan versi terbaru
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4  # Pastikan menggunakan versi terbaru
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3  # Pastikan menggunakan versi terbaru
+        with:
+          path: examples  # Folder yang ingin dijadikan GitHub Pages
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4  # Pastikan menggunakan versi terbaru
