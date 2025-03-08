@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const defaultConfig = {
         timeoutDuration: 3000,
+        captureInterval: 2000, // take a picture every 2 seconds
         onFaceTimeout: () => {
             console.log('Face not detected!');
         },
@@ -15,6 +16,12 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         onInit: () => {
             console.log('Face detector initialized');
+        },
+        onImageCaptured: (imageData) => {
+          // Callback saat gambar diambil
+          console.log('Gambar diambil:', imageData.dataUrl);
+          // imageData memiliki: dataUrl, timestamp, format, width, height
+          
         },
         resources: {
             facefinder: '../src/resources/facefinder.bin',
@@ -86,6 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
             await video.play();
             
             await faceDetector.init(canvas);
+            faceDetector.startCapturing(video);
             faceDetector.start(video);
         } catch (err) {
             console.error('Error accessing webcam:', err);

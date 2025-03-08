@@ -23,11 +23,13 @@ import { FaceDetector } from 'webcam-face-detector';
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
 | timeoutDuration | number | 3000 | Duration in milliseconds before triggering timeout callbacks |
+| captureInterval | number | 2000 | Interval in milliseconds between image captures |
 | onFaceDetected | function | () => {} | Callback when face is detected, receives detection data |
 | onFaceTimeout | function | () => {} | Callback when face is not detected for timeoutDuration |
 | onPupilDetected | function | () => {} | Callback when pupil is detected, receives coordinates and eye type |
 | onPupilTimeout | function | () => {} | Callback when pupils are not detected for timeoutDuration |
 | onInit | function | () => {} | Callback when detector is initialized |
+| onImageCaptured | function | () => {} | Callback when an image is captured, receives imageData object with dataUrl, timestamp, format, width, and height |
 | showFaceCircle | boolean | true | Show/hide face detection circle |
 | showPupilPoints | boolean | true | Show/hide pupil detection points |
 | faceCircleColor | string | '#ff0000' | Color of face detection circle |
@@ -71,6 +73,8 @@ import { FaceDetector } from 'webcam-face-detector';
     <script>
         async function initFaceDetector() {
             const detector = new FaceDetector({
+                timeoutDuration: 3000, // 
+                captureInterval: 2000, // take a picture every 2 second
                 onFaceDetected: (detection) => console.log(detection),
                 showFaceCircle: true,    // optional: show/hide face circle
                 showPupilPoints: true,   // optional: show/hide pupil points
@@ -78,7 +82,11 @@ import { FaceDetector } from 'webcam-face-detector';
                 resources: {
                     facefinder : 'https://cdn.jsdelivr.net/gh/saifulriza/face-detector@main/src/resources/facefinder.bin',
                     puploc :'https://cdn.jsdelivr.net/gh/saifulriza/face-detector@main/src/resources/puploc.bin'
-                }
+                },
+                 onImageCaptured: (imageData) => {
+                    console.log('image taken:', imageData.dataUrl);
+                    // imageData memiliki: dataUrl, timestamp, format, width, height  
+                },
             });
 
             const video = document.getElementById('video');
@@ -90,6 +98,7 @@ import { FaceDetector } from 'webcam-face-detector';
                 await video.play();
                 
                 await detector.init(canvas);
+                detector.startCapturing(video);
                 detector.start(video);
             } catch (err) {
                 console.error('Error:', err);
@@ -125,6 +134,7 @@ function FaceDetectorComponent() {
                 await videoRef.current.play();
                 
                 await detector.init(canvasRef.current);
+                // detector.startCapturing(videoRef);
                 detector.start(videoRef.current);
             } catch (err) {
                 console.error('Error:', err);
@@ -174,6 +184,7 @@ onMounted(async () => {
         await video.value.play();
         
         await detector.init(canvas.value);
+        // detector.startCapturing(video.value)
         detector.start(video.value);
     } catch (err) {
         console.error('Error:', err);

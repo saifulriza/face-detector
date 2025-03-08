@@ -18,6 +18,8 @@ class FaceDetector {
       faceCircleLineWidth: options.faceCircleLineWidth || 3,
       pupilPointsLineWidth: options.pupilPointsLineWidth || 3,
       detectionMode: options.detectionMode || 'both',
+      captureInterval: options.captureInterval || 1000, // Interval for image capture in ms
+      onImageCaptured: options.onImageCaptured || (() => {}), // Callback when image is captured
       resources: options.resources || {
         facefinder: './resources/facefinder.bin',
         puploc: './resources/puploc.bin'
@@ -37,6 +39,7 @@ class FaceDetector {
 
     this.lastPupilDetectionTime = Date.now();
     this.pupilTimeoutInterval = null;
+    this.captureInterval = null; // Interval for image capture
 
     // Add smoothing for pupil positions
     this.lastValidPupilPositions = {
@@ -82,8 +85,94 @@ class FaceDetector {
     return gray;
   }
 
+  /**
+   * Capture a single image from the video stream
+   * @param {HTMLVideoElement} video - The video element to capture from
+   * @param {string} format - Image format ('image/jpeg', 'image/png', etc.)
+   * @param {number} quality - Image quality (0-1) for formats that support it
+   * @returns {string} - Data URL of the captured image
+   */
+  captureImage(video, format = 'image/jpeg', quality = 0.9) {
+    if (!this.initialized) throw new Error('FaceDetector not initialized. Call init() first');
+    
+    // Draw the current video frame to the canvas
+    this.ctx.drawImage(video, 0, 0);
+    
+    // Convert canvas to data URL
+    const imageData = this.canvas.toDataURL(format, quality);
+    
+    // Call the callback with the image data
+    this.options.onImageCaptured({
+      dataUrl: imageData,
+      timestamp: Date.now(),
+      format: format,
+      width: this.canvas.width,
+      height: this.canvas.height
+    });
+    
+    return imageData;
+  }
+
+  /**
+   * Start capturing images at the configured interval
+   * @param {HTMLVideoElement} video - The video element to capture from
+   * @param {string} format - Image format ('image/jpeg', 'image/png', etc.)
+   * @param {number} quality - Image quality (0-1) for formats that support it
+   */
+  startCapturing(video, format = 'image/jpeg', quality = 0.9) {
+    if (!this.initialized) throw new Error('FaceDetector not initialized. Call init() first');
+    if (!(video instanceof HTMLVideoElement)) {
+      throw new Error('Video element is required');
+    }
+    
+    // Clear any existing capture interval
+    this.stopCapturing();
+    
+    // Set up new capture interval
+    this.captureInterval = setInterval(() => {
+      this.captureImage(video, format, quality);
+    }, this.options.captureInterval);
+  }
+
+  /**
+   * Stop capturing images
+   */
+  stopCapturing() {
+    if (this.captureInterval) {
+      clearInterval(this.captureInterval);
+      this.captureInterval = null;
+    }
+  }
+
+  /**
+   * Update the image capture interval
+   * @param {number} interval - New interval in milliseconds
+   */
+  updateCaptureInterval(interval) {
+    if (typeof interval !== 'number' || interval <= 0) {
+      throw new Error('Capture interval must be a positive number');
+    }
+    
+    this.options.captureInterval = interval;
+    
+    // Restart capturing if it's currently active
+    if (this.captureInterval) {
+      const wasCapturing = !!this.captureInterval;
+      const video = this.currentVideo; // Store reference to current video
+      
+      this.stopCapturing();
+      
+      if (wasCapturing && video) {
+        this.startCapturing(video);
+      }
+    }
+  }
+
   processFace(video) {
     if (!this.initialized) throw new Error('FaceDetector not initialized. Call init() first');
+    
+    // Store reference to current video for potential use in updateCaptureInterval
+    this.currentVideo = video;
     
     this.ctx.drawImage(video, 0, 0);
     const rgba = this.ctx.getImageData(0, 0, 640, 480).data;
@@ -252,6 +341,7 @@ class FaceDetector {
     if (!(videoElement instanceof HTMLVideoElement)) {
       throw new Error('Video element is required');
     }
+    this.currentVideo = videoElement; // Store reference to video element
     this.processInterval = setInterval(() => this.processFace(videoElement), 1000/30); // 30 FPS
     
     // Only set up pupil timeout if in pupil or both mode
@@ -275,6 +365,9 @@ class FaceDetector {
       clearInterval(this.pupilTimeoutInterval);
       this.pupilTimeoutInterval = null;
     }
+    // Also stop image capturing if it's running
+    this.stopCapturing();
+    this.currentVideo = null;
   }
 }
 
